@@ -18,6 +18,10 @@ For installation of the direct lidar reconstruciton map please follow the instru
     
     https://github.com/vectr-ucla/direct_lidar_inertial_odometry/tree/feature/ros2
 
+### Direct Lidar parameters
+Please ensure to change the sensor extrinsics in '~/ros2_ws/src/direct_lidar_inertial_odometry/cfg/dlio.yaml' to obtain a correct output. 
+Correct sensor extrinsincs for Ouster 1 lidar are located in this repository in 'dlio.yaml'
+
 ## Running the Code
 
 ### 1. Start the LiDAR Inertial Odometry
