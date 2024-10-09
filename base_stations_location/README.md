@@ -23,8 +23,8 @@ If the axes are incorrect between the two readings due to errors during the scan
 
 ```
 inv_x = 0;
-inv_y = 1;
-inv_z = 1;
+inv_y = 0;
+inv_z = 0;
 ```
 
 ## Stations axes
