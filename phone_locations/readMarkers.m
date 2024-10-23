@@ -38,7 +38,7 @@ function [Points, Markers] = readMarkers(filename, n_markers)
         centroid = mean(points, 1); % Calculate centroid of the points
     
         % Compute vectors for orientation
-        v1 = points(2, :) - points(4, :); % X coordinante from point 1 to 3
+        v1 = points(4, :) - points(2, :); % X coordinante from point 1 to 3
         v3 = points(3, :) - points(1, :); % Z coordinante from point 2 to 4
         v2 = cross(v1, v3); % Y coordinante Cross product to get the third orthogonal vector
     

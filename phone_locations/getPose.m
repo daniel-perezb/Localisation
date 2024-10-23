@@ -21,7 +21,7 @@ intrinsics = data.cameraParams.Intrinsics;
 % and time as string (yyyy:MM:dd HH:mm:ss)
 [I, poses, unixEpoch, timeString] = getArTagPoseAndTime(arTagImagePath, intrinsics, markerSizeMM);
 
-plotArTagPoseOnImg(markerSizeMM, poses, intrinsics, I);
+%plotArTagPoseOnImg(markerSizeMM, poses, intrinsics, I);
 
 end
 
