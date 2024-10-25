@@ -21,7 +21,7 @@ intrinsics = data.cameraParams.Intrinsics;
 % and time as string (yyyy:MM:dd HH:mm:ss)
 [I, poses, unixEpoch, timeString] = getArTagPoseAndTime(arTagImagePath, intrinsics, markerSizeMM);
 
-%plotArTagPoseOnImg(markerSizeMM, poses, intrinsics, I);
+% plotArTagPoseOnImg(markerSizeMM, poses, intrinsics, I);
 
 end
 
@@ -71,13 +71,17 @@ function plotArTagPoseOnImg(markerSizeMM, poses, camIntrinsics, I)
         % Draw colored axes
         I = insertShape(I, "Line", axesPoints, ...
             Color = ["red", "green", "blue"], LineWidth = 10);
+        
+       
     end
     figure
+    I = imrotate(I,-90);
     imshow(I)
 end
 
 function [I, poses, unixEpoch, timeString] = getArTagPoseAndTime(arTagImagePath, intrinsics, markerSizeMM)
     I = imread(arTagImagePath);
+    
     % [~, ~, detectedFamily] = readArucoMarker(I);
     detectedFamily = "DICT_4X4_1000";
     markerFamily = detectedFamily(1); % Assuming all markers are same type. Or you can hard code it for faster results.

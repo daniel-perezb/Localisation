@@ -1,40 +1,48 @@
-function adjusted_pose = rotate_pose(pose_matrix, target_angle_deg, axis)
+function adjusted_pose = rotate_pose(pose_matrix, target_angle_deg, reference_matrix, axis)
     % Extract rotation matrix and translation vector from pose matrix
     rotationMatrix = pose_matrix(1:3, 1:3);
     translationVector = pose_matrix(1:3, 4);
 
-    % Convert the rotation matrix to Euler angles
-    eulerAngle = rotm2eul(rotationMatrix, 'XYZ');
-    angles_deg = rad2deg(eulerAngle);
+    % Extract the rotation and translation from the reference matrix
+    referenceRotation = reference_matrix(1:3, 1:3);
+    referenceTranslation = reference_matrix(1:3, 4);
 
-    % Calculate the angle difference in radians based on the specified axis
+    % Define rotation axis based on the reference matrix orientation
     if axis == 'x'
-        theta_rad = deg2rad(target_angle_deg - angles_deg(1));
-        R = [1, 0, 0;
-             0, cos(theta_rad), -sin(theta_rad);
-             0, sin(theta_rad), cos(theta_rad)];
+        rotation_axis = referenceRotation(:, 1);  % X axis of reference matrix
     elseif axis == 'y'
-        theta_rad = deg2rad(target_angle_deg - angles_deg(2));
-        R = [cos(theta_rad), 0, sin(theta_rad);
-             0, 1, 0;
-             -sin(theta_rad), 0, cos(theta_rad)];
+        rotation_axis = referenceRotation(:, 2);  % Y axis of reference matrix
     elseif axis == 'z'
-        theta_rad = deg2rad(target_angle_deg - angles_deg(3));
-        R = [cos(theta_rad), -sin(theta_rad), 0;
-             sin(theta_rad), cos(theta_rad), 0;
-             0, 0, 1];
+        rotation_axis = referenceRotation(:, 3);  % Z axis of reference matrix
     else
         error("Incorrect axis. Please select 'x', 'y', or 'z'.")
     end
 
-    % Update the orientation
-    new_orientation = R * rotationMatrix;
-    
-    % % Update the location of the camera position based on the new orientation
-    % updated_translation = R * translationVector;
+    % Normalize the rotation axis to ensure it's a unit vector
+    rotation_axis = rotation_axis / norm(rotation_axis);
 
-    % Construct the new pose matrix
+    % Convert target angle to radians
+    theta_rad = deg2rad(target_angle_deg);
+
+    % Compute the rotation matrix around the given axis using Rodrigues' rotation formula
+    K = [0, -rotation_axis(3), rotation_axis(2);
+         rotation_axis(3), 0, -rotation_axis(1);
+         -rotation_axis(2), rotation_axis(1), 0];
+
+    R = eye(3) + sin(theta_rad) * K + (1 - cos(theta_rad)) * (K * K);
+
+    % Move the pose to the reference point's frame (translate relative to the reference)
+    translationRelative = translationVector - referenceTranslation;
+
+    % Apply the rotation to both the orientation and the relative translation
+    new_orientation = R * rotationMatrix;
+    updated_translation = R * translationRelative;
+
+    % Move the pose back to the original frame (translate back)
+    updated_translation = updated_translation + referenceTranslation;
+
+    % Construct the new pose matrix with the updated orientation and location
     adjusted_pose = eye(4);
     adjusted_pose(1:3, 1:3) = new_orientation;
-    adjusted_pose(1:3, 4) = translationVector;
+    adjusted_pose(1:3, 4) = updated_translation;
 end

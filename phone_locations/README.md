@@ -1,6 +1,7 @@
 # Photo transformation using base station locations
 The project is about using base station locations to transform photos taken by mobile devices. The goal is to detect the location of this mobile devices in the local coordinate system from the base station locations. 
-
+# TODO
+- [ ] Error in the people axes since the readArucoMarkers have a different orientation that the ones obtained from the markers 
 ## Requisites
 
 - Matlab 2024a or above

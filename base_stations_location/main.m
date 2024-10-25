@@ -2,7 +2,7 @@ clear;
 close all;
 
 %% User-defined Variables
-filename1 = 'data/Test_23-10-24/UTS_test.csv';  % Path to first CSV file
+filename1 = 'data/Test_23-10-24/UTS.csv';  % Path to first CSV file
 n_markers1 = 5;                            % Number of markers in the first file
 
 % Output file name
