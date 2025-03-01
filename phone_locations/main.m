@@ -84,4 +84,4 @@ end
  plot_markers_people(Markers1, master, people);
 %% Save info from images
 out_file = 'data/Test_10-04-24/cameras.csv'; % Output file
-save_camera_location(people, Markers1, out_file, new_marker_num,timestamp)
+save_camera_location(people, Markers1, out_file, Marker_Image, timestamp)
