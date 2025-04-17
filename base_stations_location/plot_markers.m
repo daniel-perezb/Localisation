@@ -50,7 +50,7 @@ xlabel('X');
 ylabel('Y');
 zlabel('Z');
 axis equal;
-set(gca, 'YDir','reverse')
+% set(gca, 'YDir','reverse') this reverse is so annoying!!
 view(3);
 hold off;
 drawnow;
